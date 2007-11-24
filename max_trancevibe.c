@@ -1,3 +1,13 @@
+/*
+ * Implementation file for Trancevibrator Max/MSP External
+ *
+ * Copyright (c) 2005-2007 Kyle Machulis <kyle@nonpolynomial.com>
+ *
+ * Sourceforge project @ http://www.sourceforge.net/projects/libtrancevibe/
+ *
+ * This library is covered by the LGPL, read LICENSE for details.
+ */
+
 #include "ext.h"
 #include "trancevibe.h"
 
