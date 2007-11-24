@@ -1,7 +1,9 @@
 /*
  * Implementation file for Trancevibrator Max/MSP External
  *
- * Copyright (c) 2005-2007 Kyle Machulis <kyle@nonpolynomial.com>
+ * Copyright (c) 2005-2007 Kyle Machulis/Nonpolynomial Labs <kyle@nonpolynomial.com>
+ *
+ * More info on Nonpolynomial Labs @ http://www.nonpolynomial.com
  *
  * Sourceforge project @ http://www.sourceforge.net/projects/libtrancevibe/
  *
