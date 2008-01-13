@@ -1,0 +1,12 @@
+;nplabs.trancevibe.def
+
+
+
+LIBRARY nplabs.trancevibe
+
+
+
+EXPORTS
+
+	main
+
