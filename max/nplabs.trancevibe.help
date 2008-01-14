@@ -1,7 +1,10 @@
 max v2;
-#N vpatcher 236 188 649 599;
+#N vpatcher 248 188 661 599;
 #P origin -32 0;
 #P window setfont "Sans Serif" 9.;
+#P window linecount 3;
+#P message 4 340 228 9109513 Windows requires installation of Trancevibe libusb-win32 filter driver for this to work. Available at http://sourceforge.net/projects/libtrancevibe;
+#B color 9;
 #P window linecount 1;
 #P message 322 50 68 9109513 v0.1 Jan 2008;
 #B color 14;

@@ -100,6 +100,7 @@ void max_trancevibe_anything(t_max_trancevibe* x, t_symbol *msg, short argc, t_a
 	{
 		if(x->tv)
 		{
+			if(!trancevibe_set_speed(x->tv, 0, x->timeout)) outlet_bang(x->m_confirm);
 			trancevibe_close(x->tv);
 			x->tv = NULL;
 			outlet_bang(x->m_confirm);
