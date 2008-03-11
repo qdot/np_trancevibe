@@ -1,0 +1,10 @@
+#This is a file that is included with the flext Makefiles
+#when you run the build script
+
+NAME=nplabs.trancevibe
+SRCS=./src/nplabs.trancevibe.flext.cpp 
+ifdef SHARED
+	LIBS += -ltrancevibe -lusb
+else
+	LIBS += -ltrancevibe_s -lusb_s
+endif
