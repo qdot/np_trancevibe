@@ -24,16 +24,16 @@ This is an example of a simple object doing a float inversion
 // Attention: the class name must be the same as the object name!! (without an eventual ~)
 // Special names are possible with the usage of libraries (see the lib1 tutorial example)
 
-class tv:
+class npl_trancevibe:
 	// inherit from basic flext class
 	public flext_base
 {
 	// obligatory flext header (class name,base class name)
-	FLEXT_HEADER(tv,flext_base)
+	FLEXT_HEADER(npl_trancevibe,flext_base)
  
 public:
 	// constructor
-	tv()
+	npl_trancevibe()
 	{
 		trancevibe_open(&m_vibe,0);
 		// define inlets:
@@ -44,7 +44,7 @@ public:
 		FLEXT_ADDMETHOD(0,m_int);  // register method (for float messages) "m_float" for inlet 0
 	} 
 
-	~tv()
+	~npl_trancevibe()
 	{
 		trancevibe_close(m_vibe);
 	}
@@ -62,7 +62,7 @@ private:
 	FLEXT_CALLBACK_1(m_int,int)  // callback for method "m_float" (with one float argument)
 };
 // instantiate the class
-FLEXT_NEW("tv",tv)
+FLEXT_NEW("npl_trancevibe", npl_trancevibe)
 
 
 
