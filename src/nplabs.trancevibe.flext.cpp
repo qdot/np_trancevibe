@@ -33,43 +33,117 @@ class npl_trancevibe:
  
 public:
 	// constructor
-	npl_trancevibe()
+	npl_trancevibe() :
+	mTranceVibe(NULL),
+		mTimeout(10)
 	{
-		trancevibe_open(&m_vibe,0);
 		// define inlets:
 		// first inlet must always be of type anything (or signal for dsp objects)
-		AddInAnything();
+		AddInAnything("Command Input");
 		
-		AddInInt();  // add one inlet for any message
+		AddInInt("Speed Input");  // add one inlet for any message
+
+		AddOutBang("Bangs on successful connection/command");
 		
 		// register methods
-		FLEXT_ADDMETHOD(0,m_any);
-		FLEXT_ADDMETHOD(1,m_int);  // register method (for float messages) "m_float" for inlet 0
+		FLEXT_ADDMETHOD(0, trancevibe_anything);
+		FLEXT_ADDMETHOD(1, trancevibe_speed);
 	} 
 
-	~npl_trancevibe()
+	virtual ~npl_trancevibe()
 	{
-		trancevibe_close(m_vibe);
+		if(mTranceVibe)
+		{
+			close();
+		}
 	}
-
 	
 protected:
-	trancevibe m_vibe;
+	trancevibe mTranceVibe;
+	int mTimeout;
 
-	void m_any(const t_symbol *s,int argc,t_atom *argv)
+	void trancevibe_anything(const t_symbol *msg,int argc,t_atom *argv)
 	{
+		
+		if(!strcmp(msg->s_name, "open"))
+		{
+			int ret;
+			if(mTranceVibe)
+			{
+			}
+			if(argc == 1)
+			{
+				post("Opening %d", GetInt(argv[0]));
+				ret = trancevibe_open(&mTranceVibe, GetInt(argv[0]));
+			}
+			else
+			{
+				post("Opening default");
+				ret = trancevibe_open(&mTranceVibe, 0);
+			}
+			if(!ret)
+			{
+				ToOutBang(0);
+			}
+			else
+			{
+				post("Cannot connect to trancevibe");
+			}
+		}
+		else if (!strcmp(msg->s_name, "count"))
+		{
+			post("Trancevibes Connected to System: %d", trancevibe_get_count());
+		}
+		else if (!strcmp(msg->s_name, "timeout"))
+		{
+			if(argc == 1)
+			{
+				mTimeout = GetInt(argv[0]);
+			}
+			else
+			{
+				post("Timeout requires 1 argument (timeout in milliseconds)");
+			}
+		}
+		else if (!strcmp(msg->s_name, "close"))
+		{
+			close();
+		}
+		else
+		{
+			post("Not a valid message: %s", msg->s_name);
+		}
 	}
 
+	void close()
+	{
+		if(mTranceVibe)
+		{
+			trancevibe_set_speed(mTranceVibe, 0, mTimeout);
+			trancevibe_close(mTranceVibe);
+			mTranceVibe = NULL;
+		}
+	}
 	
-	void m_int(int input)  // method for float values
+	void trancevibe_speed(int input)  // method for float values
 	{
 		int result;
-		trancevibe_set_speed(m_vibe, input, 100);
+		if(!mTranceVibe)
+		{
+			post("Trancevibe not connected");
+		}
+		if(input > 255 || input < 0)
+		{
+			if(input > 255) input = 255;
+			else if (input < 0) input = 0;
+			post("Speed input must be between 0 and 255");
+		}
+		trancevibe_set_speed(mTranceVibe, input, 100);
 	}
 
 private:
-	FLEXT_CALLBACK_A(m_any)
-	FLEXT_CALLBACK_1(m_int,int)  // callback for method "m_float" (with one float argument)
+	FLEXT_CALLBACK_A(trancevibe_anything)
+	FLEXT_CALLBACK_I(trancevibe_speed)
 };
 // instantiate the class
 FLEXT_NEW("npl_trancevibe nplabs.trancevibe", npl_trancevibe)
