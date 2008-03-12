@@ -2,7 +2,7 @@
 #when you run the build script
 
 NAME=np_trancevibe
-SRCS=./src/nplabs.trancevibe.flext.cpp 
+SRCS=./src/np_trancevibe.flext.cpp 
 CFLAGS=-I/usr/include -I/usr/local/include
 ifdef SHARED
 	LIBS += -ltrancevibe -lusb

@@ -1,5 +1,5 @@
 ==================================
-nplabs.trancevibe Max/MSP External
+np_trancevibe Max/MSP External
 ==================================
 
 by Kyle Machulis <kyle@nonpolynomial.com>
@@ -9,7 +9,7 @@ Nonpolynomial Labs - http://www.nonpolynomial.com
 Description
 ===========
 
-nplabs.trancevibe is an external for either Max/MSP or Puredata to control the Rez Trancevibrator. It is based on libtrancevibe:
+np_trancevibe is an external for either Max/MSP or Puredata to control the Rez Trancevibrator. It is based on libtrancevibe:
 
 http://sourceforge.net/projects/libtrancevibe
 
@@ -27,7 +27,7 @@ Licensing
 
 libtrancevibe is covered under the MIT License.
 
-flext and nplabs.trancevibe source code are covered under the GPL v2 License.
+flext and np_trancevibe source code are covered under the GPL v2 License.
 
 ===========================
 Trance Vibrator Information
