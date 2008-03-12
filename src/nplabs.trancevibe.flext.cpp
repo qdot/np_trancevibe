@@ -24,16 +24,16 @@ This is an example of a simple object doing a float inversion
 // Attention: the class name must be the same as the object name!! (without an eventual ~)
 // Special names are possible with the usage of libraries (see the lib1 tutorial example)
 
-class npl_trancevibe:
+class np_trancevibe:
 	// inherit from basic flext class
 	public flext_base
 {
 	// obligatory flext header (class name,base class name)
-	FLEXT_HEADER(npl_trancevibe,flext_base)
+	FLEXT_HEADER(np_trancevibe,flext_base)
  
 public:
 	// constructor
-	npl_trancevibe() :
+	np_trancevibe() :
 	mTranceVibe(NULL),
 		mTimeout(10)
 	{
@@ -50,7 +50,7 @@ public:
 		FLEXT_ADDMETHOD(1, trancevibe_speed);
 	} 
 
-	virtual ~npl_trancevibe()
+	virtual ~np_trancevibe()
 	{
 		if(mTranceVibe)
 		{
@@ -146,7 +146,7 @@ private:
 	FLEXT_CALLBACK_I(trancevibe_speed)
 };
 // instantiate the class
-FLEXT_NEW("npl_trancevibe nplabs.trancevibe", npl_trancevibe)
+FLEXT_NEW("np_trancevibe", np_trancevibe)
 
 
 

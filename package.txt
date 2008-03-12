@@ -1,7 +1,7 @@
 #This is a file that is included with the flext Makefiles
 #when you run the build script
 
-NAME=npl_trancevibe
+NAME=np_trancevibe
 SRCS=./src/nplabs.trancevibe.flext.cpp 
 CFLAGS=-I/usr/include -I/usr/local/include
 ifdef SHARED

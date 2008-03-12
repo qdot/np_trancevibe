@@ -2,6 +2,7 @@ nplabs.trancevibe ChangeLog
 ===========================
 
 2008-03-12 Kyle Machulis <kyle@nonpolynomial.com>
+	* Changed external name from nplabs.trancevibe to np_trancevibe due to flext naming restrictions
 	* Ported to flext (http://www.parasitaere-kapazitaeten.net/ext/flext/) for cross compilation between Max and Puredata
 
 2008-01-12 Kyle Machulis <kyle@nonpolynomial.com>
