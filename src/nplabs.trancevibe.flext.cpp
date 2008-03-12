@@ -81,7 +81,7 @@ protected:
 				post("Opening default");
 				ret = trancevibe_open(&mTranceVibe, 0);
 			}
-			if(!ret)
+			if(ret >= 0)
 			{
 				ToOutBang(0);
 			}
@@ -138,7 +138,7 @@ protected:
 			else if (input < 0) input = 0;
 			post("Speed input must be between 0 and 255");
 		}
-		trancevibe_set_speed(mTranceVibe, input, 100);
+		trancevibe_set_speed(mTranceVibe, input, mTimeout);
 	}
 
 private:
