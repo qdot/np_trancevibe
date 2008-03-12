@@ -3,6 +3,7 @@
 
 NAME=npl_trancevibe
 SRCS=./src/nplabs.trancevibe.flext.cpp 
+CFLAGS=-I/usr/include -I/usr/local/include
 ifdef SHARED
 	LIBS += -ltrancevibe -lusb
 else

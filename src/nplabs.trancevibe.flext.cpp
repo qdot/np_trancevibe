@@ -38,10 +38,13 @@ public:
 		trancevibe_open(&m_vibe,0);
 		// define inlets:
 		// first inlet must always be of type anything (or signal for dsp objects)
+		AddInAnything();
+		
 		AddInInt();  // add one inlet for any message
 		
 		// register methods
-		FLEXT_ADDMETHOD(0,m_int);  // register method (for float messages) "m_float" for inlet 0
+		FLEXT_ADDMETHOD(0,m_any);
+		FLEXT_ADDMETHOD(1,m_int);  // register method (for float messages) "m_float" for inlet 0
 	} 
 
 	~npl_trancevibe()
@@ -52,6 +55,12 @@ public:
 	
 protected:
 	trancevibe m_vibe;
+
+	void m_any(const t_symbol *s,int argc,t_atom *argv)
+	{
+	}
+
+	
 	void m_int(int input)  // method for float values
 	{
 		int result;
@@ -59,10 +68,11 @@ protected:
 	}
 
 private:
+	FLEXT_CALLBACK_A(m_any)
 	FLEXT_CALLBACK_1(m_int,int)  // callback for method "m_float" (with one float argument)
 };
 // instantiate the class
-FLEXT_NEW("npl_trancevibe", npl_trancevibe)
+FLEXT_NEW("npl_trancevibe nplabs.trancevibe", npl_trancevibe)
 
 
 
