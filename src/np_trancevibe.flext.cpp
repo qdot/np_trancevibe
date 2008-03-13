@@ -1,14 +1,14 @@
-/* 
-flext tutorial - simple 1 
-
-Copyright (c) 2002,2003 Thomas Grill (xovo@gmx.net)
-For information on usage and redistribution, and for a DISCLAIMER OF ALL
-WARRANTIES, see the file, "license.txt," in this distribution.  
-
--------------------------------------------------------------------------
-
-This is an example of a simple object doing a float inversion
-*/
+/*
+ * Implementation file for Trancevibrator Max/Pd External
+ *
+ * Copyright (c) 2005-2008 Kyle Machulis/Nonpolynomial Labs <kyle@nonpolynomial.com>
+ *
+ * More info on Nonpolynomial Labs @ http://www.nonpolynomial.com
+ *
+ * Sourceforge project @ http://www.sourceforge.net/projects/libtrancevibe/
+ *
+ * Example code from flext tutorials. http://www.parasitaere-kapazitaeten.net/ext/flext/
+ */
 
 // include flext header
 #include <flext.h>
@@ -19,10 +19,6 @@ This is an example of a simple object doing a float inversion
 #error You need at least flext version 0.4.0
 #endif
 
-
-// define the class that stands for a pd/Max object
-// Attention: the class name must be the same as the object name!! (without an eventual ~)
-// Special names are possible with the usage of libraries (see the lib1 tutorial example)
 
 class np_trancevibe:
 	// inherit from basic flext class
@@ -37,15 +33,10 @@ public:
 	mTranceVibe(NULL),
 		mTimeout(10)
 	{
-		// define inlets:
-		// first inlet must always be of type anything (or signal for dsp objects)
-		AddInAnything("Command Input");
-		
-		AddInInt("Speed Input");  // add one inlet for any message
-
+		AddInAnything("Command Input");		
+		AddInInt("Speed Input");
 		AddOutBang("Bangs on successful connection/command");
 		
-		// register methods
 		FLEXT_ADDMETHOD(0, trancevibe_anything);
 		FLEXT_ADDMETHOD(1, set_speed);
 	} 
@@ -117,7 +108,6 @@ protected:
 		}
 		else if (!strcmp(msg->s_name, "bang"))
 		{
-			//If no argument, we consider it a bang
 			if(mTranceVibe)
 			{
 				trancevibe_speed(mSpeed);
@@ -149,7 +139,7 @@ protected:
 		mSpeed = speed;
 	}
 	
-	void trancevibe_speed(int input)  // method for float values
+	void trancevibe_speed(int input) 
 	{
 		int result;
 		if(!mTranceVibe)
@@ -169,7 +159,7 @@ private:
 	FLEXT_CALLBACK_A(trancevibe_anything)
 	FLEXT_CALLBACK_I(set_speed)
 };
-// instantiate the class
+
 FLEXT_NEW("np_trancevibe", np_trancevibe)
 
 
