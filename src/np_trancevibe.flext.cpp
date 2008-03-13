@@ -115,7 +115,7 @@ protected:
 			close();
 			ToOutBang(0);
 		}
-		else if (strcmp(msg->s_name, "bang"))
+		else if (!strcmp(msg->s_name, "bang"))
 		{
 			//If no argument, we consider it a bang
 			if(mTranceVibe)
