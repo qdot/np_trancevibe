@@ -96,12 +96,14 @@ protected:
 		else if (!strcmp(msg->s_name, "count"))
 		{
 			post("Trancevibes Connected to System: %d", trancevibe_get_count());
+			ToOutBang(0);
 		}
 		else if (!strcmp(msg->s_name, "timeout"))
 		{
 			if(argc == 1)
 			{
 				mTimeout = GetInt(argv[0]);
+				ToOutBang(0);
 			}
 			else
 			{
@@ -111,6 +113,7 @@ protected:
 		else if (!strcmp(msg->s_name, "close"))
 		{
 			close();
+			ToOutBang(0);
 		}
 		else if (strcmp(msg->s_name, "bang"))
 		{
@@ -118,6 +121,7 @@ protected:
 			if(mTranceVibe)
 			{
 				trancevibe_speed(mSpeed);
+				ToOutBang(0);
 			}
 			else
 			{
