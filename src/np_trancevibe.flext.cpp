@@ -47,7 +47,7 @@ public:
 		
 		// register methods
 		FLEXT_ADDMETHOD(0, trancevibe_anything);
-		FLEXT_ADDMETHOD(1, trancevibe_speed);
+		FLEXT_ADDMETHOD(1, set_speed);
 	} 
 
 	virtual ~np_trancevibe()
@@ -61,15 +61,18 @@ public:
 protected:
 	trancevibe mTranceVibe;
 	int mTimeout;
+	int mSpeed;
 
 	void trancevibe_anything(const t_symbol *msg,int argc,t_atom *argv)
 	{
+		
 		
 		if(!strcmp(msg->s_name, "open"))
 		{
 			int ret;
 			if(mTranceVibe)
 			{
+				trancevibe_close(mTranceVibe);
 			}
 			if(argc == 1)
 			{
@@ -109,9 +112,21 @@ protected:
 		{
 			close();
 		}
-		else
+		else if (strcmp(msg->s_name, "bang"))
 		{
-			post("Not a valid message: %s", msg->s_name);
+			//If no argument, we consider it a bang
+			if(mTranceVibe)
+			{
+				trancevibe_speed(mSpeed);
+			}
+			else
+			{
+				post("Not connected to trancevibe");
+			}
+		}
+		else 
+		{
+			post("Not a valid np_trancevibe message: %s", msg->s_name);
 		}
 	}
 
@@ -123,6 +138,11 @@ protected:
 			trancevibe_close(mTranceVibe);
 			mTranceVibe = NULL;
 		}
+	}
+
+	void set_speed(int speed)
+	{
+		mSpeed = speed;
 	}
 	
 	void trancevibe_speed(int input)  // method for float values
@@ -143,7 +163,7 @@ protected:
 
 private:
 	FLEXT_CALLBACK_A(trancevibe_anything)
-	FLEXT_CALLBACK_I(trancevibe_speed)
+	FLEXT_CALLBACK_I(set_speed)
 };
 // instantiate the class
 FLEXT_NEW("np_trancevibe", np_trancevibe)

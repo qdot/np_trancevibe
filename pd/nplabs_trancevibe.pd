@@ -1,23 +1,26 @@
-#N canvas 279 188 401 200 10;
-#X msg 89 77 count;
-#X floatatom 88 126 5 0 255 0 - - -;
-#X msg 89 29 open;
-#X obj 2 175 bng 15 250 50 0 empty empty empty 0 -6 0 10 -262144 -1
+#N canvas 291 264 411 280 10;
+#X msg 92 109 count;
+#X floatatom 91 158 5 0 255 0 - - -;
+#X msg 92 61 open;
+#X obj 5 207 bng 15 250 50 0 empty empty empty 0 -6 0 10 -262144 -1
 -1;
-#X msg 89 101 close;
-#X obj 2 147 np_trancevibe;
-#X msg 89 54 open 0;
+#X msg 92 133 close;
+#X obj 5 179 np_trancevibe;
+#X msg 92 86 open 0;
 #X text 2 -1 np_trancevibe tutorial;
 #X text 2 12 http://www.nonpolynomial.com/libtrancevibe;
-#X text 131 102 Close current device;
-#X text 127 125 Set speed \, 0-255;
-#X text 20 171 Bang on successful open or speed set;
-#X text 130 76 prints out number of devices connected;
-#X text 124 30 open first device found;
-#X text 138 53 open device at index (starts at 0);
+#X text 134 134 Close current device;
+#X text 130 157 Set speed \, 0-255;
+#X text 23 203 Bang on successful open or speed set;
+#X text 133 108 prints out number of devices connected;
+#X text 127 62 open first device found;
+#X text 141 85 open device at index (starts at 0);
+#X obj 92 35 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
 #X connect 0 0 5 0;
 #X connect 1 0 5 1;
 #X connect 2 0 5 0;
 #X connect 4 0 5 0;
 #X connect 5 0 3 0;
 #X connect 6 0 5 0;
+#X connect 15 0 5 0;
