@@ -26,6 +26,25 @@ class np_trancevibe:
 {
 	// obligatory flext header (class name,base class name)
 	FLEXT_HEADER(np_trancevibe,flext_base)
+	class ScopedMutex
+	{
+		ScopedMutex() {}
+
+	public:
+		ScopedMutex(ThrMutex& tm)
+		{
+			m = &tm;
+			m->Lock();
+		}
+
+		~ScopedMutex()
+		{
+			m->Unlock();
+		}
+	private:
+		ThrMutex* m;
+	};
+
  
 public:
 	// constructor
@@ -38,6 +57,8 @@ public:
 		AddOutBang("Bangs on successful connection/command");
 		
 		FLEXT_ADDMETHOD(0, trancevibe_anything);
+		FLEXT_ADDMETHOD_(0, "auto_poll", run_speed_update);
+		FLEXT_ADDMETHOD_(0, "stop_poll", stop_update);
 		FLEXT_ADDMETHOD(1, set_speed);
 	} 
 
@@ -53,6 +74,9 @@ protected:
 	trancevibe mTranceVibe;
 	int mTimeout;
 	int mSpeed;
+	bool m_shouldRun;
+	bool m_shouldUpdate;
+	ThrMutex m_deviceMutex;
 
 	void trancevibe_anything(const t_symbol *msg,int argc,t_atom *argv)
 	{
@@ -134,9 +158,17 @@ protected:
 		}
 	}
 
-	void set_speed(int speed)
+	void set_speed(int input)
 	{
-		mSpeed = speed;
+		if(input > 255 || input < 0)
+		{
+			if(input > 255) input = 255;
+			else if (input < 0) input = 0;
+			post("Speed input must be between 0 and 255");
+		}
+		ScopedMutex m(m_deviceMutex);
+		mSpeed = input;
+		m_shouldUpdate = true;
 	}
 	
 	void trancevibe_speed(int input) 
@@ -146,18 +178,51 @@ protected:
 		{
 			post("Trancevibe not connected");
 		}
-		if(input > 255 || input < 0)
-		{
-			if(input > 255) input = 255;
-			else if (input < 0) input = 0;
-			post("Speed input must be between 0 and 255");
+		if(m_shouldUpdate)
+		{				
+			ScopedMutex m(m_deviceMutex);
+			m_shouldUpdate = false;
+			trancevibe_set_speed(mTranceVibe, input, mTimeout);
 		}
-		trancevibe_set_speed(mTranceVibe, input, mTimeout);
+		m_shouldUpdate = true;
 	}
 
+	void run_speed_update()
+	{
+		m_shouldRun = true;
+		Lock();
+		post("np_trancevibe - Entering update loop");
+		Unlock();
+		while(m_shouldRun)
+		{
+			if(m_shouldUpdate)
+			{				
+				ScopedMutex m(m_deviceMutex);
+				m_shouldUpdate = false;
+				trancevibe_set_speed(mTranceVibe, mSpeed, mTimeout);
+			}
+			else
+			{
+				Sleep(.001);
+			}
+		}
+		Lock();
+		post("np_trancevibe - Exiting update loop");
+		Unlock();
+	}
+
+	void stop_update()
+	{
+		m_shouldRun = false;
+	}
+
+	
 private:
 	FLEXT_CALLBACK_A(trancevibe_anything)
 	FLEXT_CALLBACK_I(set_speed)
+	FLEXT_THREAD(run_speed_update)
+	FLEXT_CALLBACK(stop_update)
+	
 };
 
 FLEXT_NEW("np_trancevibe", np_trancevibe)
